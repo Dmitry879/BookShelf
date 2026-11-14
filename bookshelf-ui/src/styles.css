@@ -1,0 +1,23 @@
+.btn-bookshelf {
+  background-color: #a82a0d;
+  border-color: #a82a0d;
+  color: white;
+}
+
+.btn-bookshelf:hover {
+  background-color: #871f08;
+  border-color: #871f08;
+  color: white;
+}
+
+.btn-outline-bookshelf {
+  background-color: transparent;
+  border: 1px solid #a82a0d;
+  color: #a82a0d;
+}
+
+.btn-outline-bookshelf:hover {
+  background-color: #a82a0d;
+  border-color: #a82a0d;
+  color: white;
+}

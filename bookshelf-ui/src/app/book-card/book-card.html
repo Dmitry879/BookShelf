@@ -1,0 +1,25 @@
+<a [routerLink]="['/books', book.id]"
+   class="text-decoration-none text-reset">
+
+  <div class="card h-100">
+
+    <img
+      [src]="book.coverImage
+        ? 'http://localhost:3000' + book.coverImage
+        : 'images/no-cover.png'"
+      [alt]="book.title"
+      class="card-img-top">
+
+    <div class="card-body">
+      <h6 class="card-title">{{ book.title }}</h6>
+      <p class="card-text text-muted">
+        @for (author of book.authors ?? []; track author.id; let last = $last) {
+          {{ author.name }}{{ last ? '' : ', ' }}
+        }
+      </p>
+    </div>
+
+  </div>
+
+</a>
+

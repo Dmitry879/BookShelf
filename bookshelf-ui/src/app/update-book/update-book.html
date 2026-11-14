@@ -1,0 +1,338 @@
+<div class="container mt-4 mb-5">
+
+  <h2>Update Book</h2>
+
+  <form [formGroup]="bookForm" (ngSubmit)="submitBook()">
+
+    <div class="mb-3">
+      <label for="title" class="form-label">Book Title</label>
+      <input
+        id="title"
+        type="text"
+        class="form-control"
+        formControlName="title"
+        [class.is-invalid]="isInvalid('title')">
+
+        @if (isInvalid('title')) {
+          <div class="invalid-feedback">
+            Book title is required.
+          </div>
+        }
+    </div>
+
+    <div class="mb-3">
+      <label for="authorSearch" class="form-label">Authors</label>
+      <input
+        id="authorSearch"
+        type="text"
+        class="form-control"
+        placeHolder="Search authors..."
+        [value]="authorSearch"
+        (input)="authorSearch = $any($event.target).value">
+
+      @if (authorSearch.trim()) {
+        <div class="list-group mt-2">
+          @for (author of filterAuthors; track author.id) {
+            <button
+              type="button"
+              class="list-group-item list-group-item-action"
+              (click)="selectAuthor(author)">
+              {{ author.name }}
+            </button>
+          }
+        </div>
+      }
+
+      <div class="mt-2">
+        @for (author of selectedAuthors; track author.id) {
+          <span class="badge bg-secondary me-2 mb-2">
+            {{ author.name }}
+            <button
+              type="button"
+              class="btn-close btn-close-white ms-2"
+              aria-label="Remove author"
+              (click)="removeAuthor(author)">
+            </button>
+          </span>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-outline-bookshelf btn-sm"
+        (click)="showNewAuthorInput = !showNewAuthorInput">
+        Add New Author
+      </button>
+
+      @if (showNewAuthorInput) {
+        <div class="input-group mt-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter new author name"
+            [value]="newAuthorName"
+            (input)="newAuthorName = $any($event.target).value">
+
+          <button
+            type="button"
+            class="btn btn-bookshelf"
+            (click)="addNewAuthor()"
+            [disabled]="!newAuthorName.trim()">
+            Add
+          </button>
+
+        </div>
+      }
+
+    </div>
+
+    <div class="mb-3">
+
+      <label class="form-label">Categories</label>
+
+      <div class="dropdown">
+        <button
+          type="button"
+          class="btn btn-outline-secondary dropdown-toggle"
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="outside"
+          aria-expanded="false">
+          Select Categories
+        </button>
+
+        <ul class="dropdown-menu p-2">
+          @for (category of categories; track category.id) {
+            <li>
+              <label class="dropdown-item">
+                <input
+                  type="checkbox"
+                  class="form-check-input me-2"
+                  [checked]="isCategorySelected(category)"
+                  (change)="toggleCategory(category)">
+                {{ category.categoryName }}
+              </label>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="mt-2">
+        @for (category of selectedCategories; track category.id) {
+          <span class="badge bg-secondary me-2 mb-2">
+            {{ category.categoryName }}
+
+            <button
+              type="button"
+              class="btn-close btn-close-white ms-2"
+              aria-label="Remove category"
+              (click)="removeCategory(category)">
+            </button>
+          </span>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-outline-bookshelf btn-sm"
+        (click)="showNewCategoryInput = !showNewCategoryInput">
+        Add New Category
+      </button>
+
+      @if (showNewCategoryInput) {
+        <div class="input-group mt-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter new category name"
+            [value]="newCategoryName"
+            (input)="newCategoryName = $any($event.target).value">
+
+          <button
+            type="button"
+            class="btn btn-bookshelf"
+            [disabled]="!newCategoryName.trim()"
+            (click)="addNewCategory()">
+            Add
+          </button>
+        </div>
+      }
+
+    </div>
+
+    <div class="mb-3">
+
+      <label for="publisherSearch" class="form-label">Publisher</label>
+
+      <input
+        id="publisherSearch"
+        type="text"
+        class="form-control"
+        placeholder="Search publishers..."
+        [value]="publisherSearch"
+        (input)="publisherSearch = $any($event.target).value">
+
+      @if (publisherSearch.trim()) {
+        <div class="list-group mt-2">
+          @for (publisher of filteredPublishers; track publisher.id) {
+            <button
+              type="button"
+              class="list-group-item list-group-item-action"
+              (click)="selectedPublisher = publisher; publisherSearch = ''">
+              {{ publisher.publisherName }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (selectedPublisher) {
+        <div class="mt-2">
+          <span class="badge bg-secondary">
+            {{ selectedPublisher.publisherName }}
+
+            <button
+              type="button"
+              class="btn-close btn-close-white ms-2"
+              aria-label="Remove publisher"
+              (click)="selectedPublisher = null">
+            </button>
+          </span>
+        </div>
+      }
+
+      <button
+        type="button"
+        class="btn btn-outline-bookshelf btn-sm mt-2"
+        (click)="showNewPublisherInput = !showNewPublisherInput">
+        Add New Publisher
+      </button>
+
+      @if (showNewPublisherInput) {
+        <div class="d-flex gap-2 mt-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter new publisher name"
+            [value]="newPublisherName"
+            (input)="newPublisherName = $any($event.target).value">
+
+          <button
+            type="button"
+            class="btn btn-bookshelf"
+            [disabled]="!newPublisherName.trim()"
+            (click)="addNewPublisher()">
+            Add
+          </button>
+
+        </div>
+      }
+
+    </div>
+
+    <div class="mb-3">
+      <label for="publishDate" class="form-label">Publication Date</label>
+      <input
+        id="publishDate"
+        type="date"
+        class="form-control"
+        formControlName="publishDate"
+        [class.is-invalid]="isInvalid('publishDate')">
+
+        @if (isInvalid('publishDate')) {
+          <div class="invalid-feedback">
+            A publication date is required.
+          </div>
+        }
+    </div>
+
+    <div class="mb-3">
+      <label for="isbn" class="form-label">ISBN</label>
+      <input
+        id="isbn"
+        type="text"
+        class="form-control"
+        formControlName="isbn"
+        maxlength="13"
+        (blur)="checkIsbn()"
+        [class.is-invalid]="isInvalid('isbn') || isbnExists">
+
+        @if (isbnChecking) {
+          <div class="form-text">Checking ISBN...</div>
+        }
+
+        @if (isbnExists) {
+          <div class="text-danger small mt-1">
+            This ISBN already exists.
+          </div>
+        }
+
+        @if (isInvalid('isbn')) {
+          <div class="invalid-feedback">
+            ISBN must contain exactly 10 or 13 digits.
+          </div>
+        }
+    </div>
+
+    <div class="mb-3">
+      <label for="numPages" class="form-label">Number of Pages</label>
+      <input
+        id="numPages"
+        type="number"
+        min="1"
+        step="1"
+        class="form-control"
+        formControlName="numPages"
+        [class.is-invalid]="isInvalid('numPages')">
+
+        @if (isInvalid('numPages')) {
+          <div class="invalid-feedback">
+            Number of pages must be a positive integer.
+          </div>
+        }
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        id="description"
+        rows="5"
+        class="form-control"
+        formControlName="description"
+        [class.is-invalid]="isInvalid('description')"></textarea>
+
+        @if (isInvalid('description')) {
+          <div class="invalid-feedback">
+            Book description is required.
+          </div>
+        }
+    </div>
+
+    <div class="mb-3">
+      <label for="coverImage" class="form-label">
+        Book Cover
+      </label>
+
+      <input
+        id="coverImage"
+        type="file"
+        class="form-control"
+        accept="image/jpeg,image/png,image/webp"
+        (change)="onCoverSelected($event)">
+
+      @if (uploadedCoverPath) {
+        <div class="text-success mt-2">
+          Cover image uploaded successfully!
+        </div>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-bookshelf"
+      [disabled]="isSubmitting || isbnChecking || isbnExists">
+      {{ isSubmitting ? 'Updating Book...' : 'Update Book' }}
+    </button>
+
+  </form>
+
+</div>
+

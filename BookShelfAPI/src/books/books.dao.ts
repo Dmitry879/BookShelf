@@ -1,0 +1,65 @@
+import type { ResultSetHeader } from 'mysql2';
+import { execute } from '../services/mysql.connector.ts';
+import { PoolConnection } from 'mysql2/promise';
+
+import type { Book } from './books.model.ts';
+import { bookQueries } from './books.queries.ts';
+import { authorQueries } from '../authors/authors.queries.ts';
+
+export const readBooks = async () => {
+  return execute<Book[]>(bookQueries.readBooks, []);
+};
+
+export const readBookById = async (bookId: number, connection?: PoolConnection) => {
+  return execute<Book[]>(bookQueries.readBookById, [bookId], connection);
+}
+
+export const readBooksByTitleSearch = async (titleSearch: string) => {
+  return execute<Book[]>(bookQueries.readBooksByTitleSearch, [titleSearch]);
+}
+
+export const readBooksByAuthorSearch = async (authorSearch: string) => {
+  return execute<Book[]>(bookQueries.readBooksByAuthorSearch, [authorSearch]);
+}
+
+export const readBookByIsbn = async (isbn: string, connection?:PoolConnection) => {
+  return execute<Book[]>(bookQueries.readBookByIsbn, [isbn], connection);
+}
+
+export const createBook = async (book: Omit<Book, 'id'>, connection?: PoolConnection) => {
+  return execute<ResultSetHeader>(bookQueries.createBook,
+                                  [book.title,
+                                   book.publisherId,
+                                   book.publishDate,
+                                   book.isbn,
+                                   book.numPages,
+                                   book.description,
+                                   book.coverImage],
+                                   connection);
+}
+
+export const updateBook = async (book: Book, connection?: PoolConnection) => {
+  return execute<ResultSetHeader>(bookQueries.updateBook, [book.title,
+                                                           book.publisherId,
+                                                           book.publishDate,
+                                                           book.isbn,
+                                                           book.numPages,
+                                                           book.description,
+                                                           book.coverImage,
+                                                           book.id],
+                                                           connection);
+}
+
+export const deleteBook = async (bookId: number, connection?: PoolConnection) => {
+  return execute<ResultSetHeader>(bookQueries.deleteBook, [bookId], connection);
+}
+
+export const countBooksUsingCover = async (
+  coverPath: string
+): Promise<number> => {
+  const rows = await execute<{ count: number }[]>(
+    bookQueries.countBooksUsingCover, [coverPath]
+  );
+
+  return rows[0].count;
+}

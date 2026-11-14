@@ -1,0 +1,71 @@
+<div class="container mt-4" *ngIf="book">
+
+  <div class="d-flex justify-content-end align-items-center gap-2 mb-4">
+
+    <label for="bookAction" class="form-label mb-0">Action:</label>
+    <select
+      id="bookAction"
+      class="form-select w-auto"
+      (change)="onActionChange($event)">
+      <option value="" selected disabled>Select Action</option>
+      <option value="update">Update</option>
+      <option value="delete">Delete</option>
+    </select>
+
+  </div>
+
+  <div class="row g-4">
+
+    <div class="col-12 col-md-4 col-lg-3">
+      <img
+        [src]="book.coverImage
+          ? 'http://localhost:3000' + book.coverImage
+          : 'images/no-cover.png'"
+        [alt]="book.title"
+        class="img-fluid book-cover">
+    </div>
+
+    <div class="col-12 col-md-8 col-lg-9">
+
+      <h2>{{ book.title }}</h2>
+      <p class="fs-5">
+        by
+        @for (author of book.authors ?? []; track author.id; let last = $last) {
+          {{ author.name }}{{ last ? '' : ', '}}
+        }
+      </p>
+
+      <p>
+        <strong>Categories:</strong>
+        @for (category of book.categories ?? []; track category.id; let last = $last) {
+          {{ category.categoryName }}{{ last ? '' : ', '}}
+        }
+      </p>
+
+      <p>
+        <strong>Publisher:</strong> {{ book.publisher }}
+      </p>
+
+      <p>
+        <strong>Publish Date:</strong>
+        {{ book.publishDate | date: 'longDate'}}
+      </p>
+
+      <p>
+        <strong>ISBN:</strong> {{ book.isbn}}
+      </p>
+
+      <p>
+        <strong>Number of Pages:</strong> {{ book.numPages }}
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="mt-4">
+    <h4>Description</h4>
+    <p>{{ book.description }}</p>
+  </div>
+
+</div>

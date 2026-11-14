@@ -1,0 +1,14 @@
+.card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-0.25rem);
+}
+
+.card-img-top {
+  height: 15rem;
+  object-fit: contain;
+  padding: 0.75rem;
+}

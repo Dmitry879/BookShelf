@@ -1,0 +1,7 @@
+.book-cover {
+  width: 100%;
+  max-width: 15.625rem;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.3125rem;
+}

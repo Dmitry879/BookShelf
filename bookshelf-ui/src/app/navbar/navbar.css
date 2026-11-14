@@ -1,0 +1,52 @@
+.custom-navbar {
+  background-color: #a82a0d;
+}
+
+.navbar-nav {
+  gap: 0.15rem;
+  margin-right: 2rem;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: white;
+}
+
+.navbar-search {
+  flex: 1;
+  max-width: 40rem;
+  margin-left: 2rem;
+  margin-right: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 8rem;
+}
+
+.search-dropdown {
+  width: 7rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    gap: 0.15rem;
+    margin-right: 0;
+  }
+
+  .navbar-nav .navbar-link {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .navbar-search {
+    margin-top: 1.5rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
