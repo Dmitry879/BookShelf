@@ -38,7 +38,7 @@
       <p>
         <strong>Categories:</strong>
         @for (category of book.categories ?? []; track category.id; let last = $last) {
-          {{ category.categoryName }}{{ last ? '' : ', '}}
+          {{ category.name }}{{ last ? '' : ', '}}
         }
       </p>
 

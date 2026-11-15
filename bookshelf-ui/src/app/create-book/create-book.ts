@@ -177,7 +177,7 @@ export class CreateBook implements OnInit {
     }
 
     const existingCategory = this.categories.find(
-      category => category.categoryName.toLowerCase() === name.toLowerCase()
+      category => category.name.toLowerCase() === name.toLowerCase()
     );
 
     if (existingCategory) {
@@ -186,13 +186,13 @@ export class CreateBook implements OnInit {
       }
     } else {
       const alreadySelected = this.selectedCategories.some(
-        category => category.categoryName.toLowerCase() === name.toLowerCase()
+        category => category.name.toLowerCase() === name.toLowerCase()
       );
 
       if (!alreadySelected) {
         const newCategory: Category = {
           id: -Date.now(),
-          categoryName: name
+          name: name
         };
 
         this.selectedCategories = [...this.selectedCategories, newCategory];
@@ -341,7 +341,7 @@ export class CreateBook implements OnInit {
         name: author.name
       })),
       categories: this.selectedCategories.map(category => ({
-        name: category.categoryName
+        name: category.name
       })),
       publisher: this.selectedPublisher.publisherName,
       publishDate: form.publishDate,

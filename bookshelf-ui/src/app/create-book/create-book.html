@@ -109,7 +109,7 @@
                   class="form-check-input me-2"
                   [checked]="isCategorySelected(category)"
                   (change)="toggleCategory(category)">
-                {{ category.categoryName }}
+                {{ category.name }}
               </label>
             </li>
           }
@@ -119,7 +119,7 @@
       <div class="mt-2">
         @for (category of selectedCategories; track category.id) {
           <span class="badge bg-secondary me-2 mb-2">
-            {{ category.categoryName }}
+            {{ category.name }}
 
             <button
               type="button"
